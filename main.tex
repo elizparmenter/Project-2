@@ -277,11 +277,14 @@ This algorithm changes the 1\% highest red pixels to blue when fooling dandelion
 The result for the algorithm did not go as well as we expected. And the result that no grass image is fool is because of the fact that, even if there are green areas on the grass that is replaced by yellow, the yellow areas mostly appear on the tips of the grass, or even on the sky. Therefore, the yellow area will not be classified as dandelion flowers, but some random areas. This is the reason why it doesn't do well for grass pictures. 
 \\
 \\
-However, there are cases that we should choose this algorithm. It's very simple and it takes a short amount of time to execute. The wall time for the total 37 pages is less than 6 seconds. Therefore, Yellow - Green Pixel shift will be a good choice when dealing with a large amount of pictures. And it works relatively well with dandelion images. (the highest success rate among all the working algorithm, 24.32\%). And this algorithm should work a lot better if given a bigger pixel buget
+However, there are cases that we should choose this algorithm. It's very simple and it takes a short amount of time to execute. The wall time for the total 37 pages is less than 6 seconds. Therefore, Yellow - Green Pixel shift will be a good choice when dealing with a large amount of pictures. And it works relatively well with dandelion images. (the highest success rate among all the working algorithm, 24.32\%). And this algorithm should work a lot better if given a bigger pixel budget. given 5\% or more pixel budget, the green pixels will cover the whole flower, which will lead to a much higher success rate. 
+\\
+\\
+As for the run-time and performance trade-offs, the algorithm will rescale the image to 224*224 to shorten the run-time. However, it should not affect the performance since the model resize the original picture into the 224*224, and by doing that ahead of time, we will have better control over the pixel budget. 
 
 \subsubsection{CCP Attack}
 
-The Color Channel Perturbation Attack utilizes the Convoluted Neural Network model to fool a binary image classifier. CNNs are designed to recognize patterns and features in input images and learn to classify them into different categories. Like any machine learning model, CNNs have performance tradeoffs which must be taken into consideration. In the context of this project, the most impactful tradeoff that needed to be accounted for was the interpretability. It can be challenging to understand how the model is making predictions and which features its relying on. 
+The Color Channel Perturbation Attack utilizes the Convoluted Neural Network model to fool a binary image classifier. CNNs are designed to recognize patterns and features in input images and learn to classify them into different categories. Like any machine learning model, CNNs have performance tradeoffs which must be taken into consideration. In the context of this project, the most impactful tradeoff that needed to be accounted for was the interpretability. It can be challenging to understand how the model is making predictions and which features its relying on. By attacking the three primary color channels (RGB), the inerpretability of the algorithm is significantly improved. As per the walltime and performance of the algorithm, it is difficult to determine these aspects without a funcitoning algorithm. However, the algorithm 
 \\
 
 illustrate the design decisions you chose, why you chose them, and what you would have expected in terms of reasonable runtime/performance tradeoffs, as well as considerations such as how you would/should generate the testing pairs for the machine learning algorithms, what knowledge representations you think are sufficient 
@@ -289,9 +292,15 @@ illustrate the design decisions you chose, why you chose them, and what you woul
 
 \subsubsection{Image Overlay}
 
-In the initial steps of devising this algorithm I intended on using a Carlini and Wagner adversarial attack. Which takes an image and slightly perturbs it so that once it goes through the model it will miss-classify the images to a high success rate in theory. That proved a little challenging and changed course to the Image Overlay approach. Using a similar thought process to the Carlini and Wagner attack, the transparent image would perturb the initial image to confuse the model.
+In the initial steps of devising this algorithm a Carlini and Wagner adversarial attack was . In theory, it will slightly perturb an image using an optimization framework to cause a higher degree of miss-classification within the model. That proved a little challenging and lead to a change of course to the Image Overlay approach. Using a similar thought process to the Carlini and Wagner attack, the transparent image would perturb the initial image to confuse the model by placing an incorrect image over the original.
 
-As for run-time and performance trade-offs, image re-scaled was used to speed up algorithm performance due to the amount of images being processed. Obviously as the number of images increases so will run-time and with that the complexity of the implementation within the model. 
+As for run-time and performance trade-offs, image re-scaled was used to speed up algorithm performance due to the amount of images being processed. Obviously as the number of images increases so will run-time and with that the complexity of the implementation within the model. The thought process was that a more rudimentary algorithm such as Image Overlay would not only be easier to implement but also a faster running algorithm.
+
+Image Overlay was designed with testing in mind. The algorithm creates an output path unless specified within the code to show the results prior to enterring in the model. 
+
+
+
+
 illustrate the design decisions you chose, why you chose them, and what you would have expected in terms of reasonable runtime/performance tradeoffs, as well as considerations such as how you would/should generate the testing pairs for the machine learning algorithms, what knowledge representations you think are sufficient 
 
 \end{document}
